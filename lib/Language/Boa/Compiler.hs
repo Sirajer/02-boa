@@ -95,7 +95,9 @@ compileBind env (x, e) = (env', is)
 
 immArg :: Env -> IExp -> Arg
 immArg _   (Number n _)  = repr n
-immArg env e@(Id x _)    = error "TBD:immArg:Id"
+immArg env e@(Id x _)    
+  | lookupEnv x env == Nothing = err                   --TODO: FIX
+  | otherwise = [ IMov (Reg EAX) (RegOffset (fromJust (lookupEnv x env)) (Reg ESP) )]
   where
     err                  = abort (errUnboundVar (sourceSpan e) x)
 immArg _   e             = panic msg (sourceSpan e)
@@ -109,13 +111,14 @@ errUnboundVar l x = mkError (printf "Unbound variable '%s'" x) l
 -- | Compiling Primitive Operations
 --------------------------------------------------------------------------------
 compilePrim1 :: Tag -> Env -> Prim1 -> IExp -> [Instruction]
-compilePrim1 l env Add1 v = error "TBD:compilePrim1:Add1"
-compilePrim1 l env Sub1 v = error "TBD:compilePrim1:Sub1"
+compilePrim1 l env Add1 v = [ IMov (Reg EAX) (immArg env v), IAdd (Reg EAX) (Const 1) ]
+compilePrim1 l env Sub1 v = [ IMov (Reg EAX) (immArg env v), IAdd (Reg EAX) (Const -1) ]
 
 compilePrim2 :: Tag -> Env -> Prim2 -> IExp -> IExp -> [Instruction]
-compilePrim2 l env Plus  v1 v2 = error "TBD:compilePrim2:Plus"
-compilePrim2 l env Minus v1 v2 = error "TBD:compilePrim2:Minus"
-compilePrim2 l env Times v1 v2 = error "TBD:compilePrim2:Times"
+compilePrim2 l env Plus  v1 v2 = [ IMov (Reg EAX) (immArg env v1), IAdd (Reg EAX) (immArg env v2) ]
+compilePrim2 l env Minus v1 v2 = [ IMov (Reg EAX) (immArg env v1), ISub (Reg EAX) (immArg env v2) ]
+compilePrim2 l env Times v1 v2 = [ IMov (Reg EAX) (immArg env v1), IMul (Reg EAX) (immArg env v2) ]
+--load imm into eax       [mov reg eax (immarg env v1?), iadd reg eax immarg env i2 ]
 
 --------------------------------------------------------------------------------
 -- | Local Variables
