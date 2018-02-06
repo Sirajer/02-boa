@@ -117,7 +117,7 @@ errUnboundVar l x = mkError (printf "Unbound variable '%s'" x) l
 --------------------------------------------------------------------------------
 compilePrim1 :: Tag -> Env -> Prim1 -> IExp -> [Instruction]
 compilePrim1 l env Add1 v = [ IMov (Reg EAX) (immArg env v), IAdd (Reg EAX) (Const 1) ]
-compilePrim1 l env Sub1 v = [ IMov (Reg EAX) (immArg env v), IAdd (Reg EAX) (Const (-1) ]
+compilePrim1 l env Sub1 v = [ IMov (Reg EAX) (immArg env v), IAdd (Reg EAX) (Const (-1)) ]
 
 compilePrim2 :: Tag -> Env -> Prim2 -> IExp -> IExp -> [Instruction]
 compilePrim2 l env Plus  v1 v2 = [ IMov (Reg EAX) (immArg env v1), IAdd (Reg EAX) (immArg env v2) ]
