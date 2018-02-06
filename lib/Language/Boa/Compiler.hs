@@ -77,8 +77,9 @@ compileEnv env (Prim2 o v1 v2 l) = compilePrim2 l env o v1 v2
 
 compileEnv env (If v e1 e2 l)    = let (_, i) = l in
                                     ([ICmp (compileEnv env v) 0, IJne (BranchTrue i)] ++
-                                    compileEnv env e2 ++ [IJmp (BranchDone, i),
-                                    ILabel BranchTrue i] ++ compileEnv env e1 ++
+                                    compileEnv env e2 ++ 
+                                    [IJmp (BranchDone, i), ILabel BranchTrue i] ++ 
+                                    compileEnv env e1 ++
                                     [ILabel BranchDone i])
 
 compileImm :: Env -> IExp -> Instruction
