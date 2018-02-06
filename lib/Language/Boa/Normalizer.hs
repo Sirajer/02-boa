@@ -97,7 +97,7 @@ imm i (Prim2 o e1 e2 l) = (i''', bs, Id v l) --error "TBD" t?
   where
     (i', b1s, v1)       = imm i e1
     (i'', b2s, v2)      = imm i' e2
-    (i''', v)           = fresh i''
+    (i''', v)           = fresh l i''
     bs                  = b1s ++ b2s ++ [(v, Prim2 o v1 v2 l)]
 
 imm i e@(If _ _ _  l)   = immExp i e l
