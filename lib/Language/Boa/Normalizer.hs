@@ -38,7 +38,7 @@ anf i (Prim1 o e l)     = (i', stitch bs  (Prim1 o ae l))
     (i', bs, ae)        = imm i e
 
 anf i (Prim2 o e1 e2 l) =  -- error "TBD:anf:prim2"
-                          (i'', stitch (b1s ++ b2s) (Prim2 o (v1) (v2) l))
+                          (i'', stitch (b2s ++ b1s) (Prim2 o (v1) (v2) l))
   where
     (i', b1s, v1)       = imm i e1
     (i'', b2s, v2)      = imm i' e2
@@ -98,7 +98,7 @@ imm i (Prim2 o e1 e2 l) = (i''', bs, mkId v l) --error "TBD" t?
     (i', b1s, v1)       = imm i e1
     (i'', b2s, v2)      = imm i' e2
     (i''', v)           = fresh l i''
-    bs                  = b1s ++ b2s ++ [(v, (Prim2 o v1 v2 l, l))]
+    bs                  = [(v, (Prim2 o v1 v2 l, l))] ++ b2s ++ b1s
 
 imm i e@(If _ _ _  l)   = immExp i e l
 
