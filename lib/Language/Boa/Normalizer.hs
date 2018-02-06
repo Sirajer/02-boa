@@ -93,9 +93,9 @@ imm i (Prim1 o e1 l)    = (i'', bs, mkId v l)
     (i'', v)            = fresh l i'
     bs                  = (v, (Prim1 o v1 l, l)) : b1s
 
-imm i (Prim2 o e1 e2 l) = (i''', b1s ++ b2s ++ [(Prim2 o v1 v2 i''')], Id t) --error "TBD" t?
+imm i (Prim2 o e1 e2 l) = (i''', b1s ++ b2s ++ [(t, Prim2 o v1 v2 i''')], Id t) --error "TBD" t?
   where
-    (t, i')             = fresh l i
+    (i', t)             = fresh l i
     (i'', b1s, v1)       = imm i' e1
     (i''', b2s, v2)      = imm i'' e2
 
