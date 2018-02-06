@@ -80,7 +80,7 @@ compileEnv env (If v e1 e2 l)    = let (_, i) = l in
                                     compileEnv env e2 ++ 
                                     [IJmp (BranchDone i), ILabel (BranchTrue i)] ++ 
                                     compileEnv env e1 ++
-                                    [ILabel (BranchDone i]))
+                                    [ILabel (BranchDone i)])
 
 compileImm :: Env -> IExp -> Instruction
 compileImm env v = IMov (Reg EAX) (immArg env v)
