@@ -76,7 +76,7 @@ compileEnv env (Prim1 o v l)     = compilePrim1 l env o v
 compileEnv env (Prim2 o v1 v2 l) = compilePrim2 l env o v1 v2
 
 compileEnv env (If v e1 e2 l)    = let (_, i) = l in
-                                    (compileEnv env v ++ [ICmp (EAX) (Const 0), IJne (BranchTrue i)] ++
+                                    (compileEnv env v ++ [ICmp (Reg EAX) (Const 0), IJne (BranchTrue i)] ++
                                     compileEnv env e2 ++ 
                                     [IJmp (BranchDone i), ILabel (BranchTrue i)] ++ 
                                     compileEnv env e1 ++
