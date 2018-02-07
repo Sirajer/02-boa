@@ -102,7 +102,7 @@ immArg :: Env -> IExp -> Arg
 immArg _   (Number n _)  = repr n
 immArg env e@(Id x _)    
   | lookupEnv x env == Nothing = err                   --TODO: FIX
-  | otherwise = (RegOffset (fromJust (lookupEnv x env)) (ESP) )
+  | otherwise = (RegOffset ((fromJust (lookupEnv x env))*4) (ESP) )
   where
     err                  = abort (errUnboundVar (sourceSpan e) x)
 immArg _   e             = panic msg (sourceSpan e)
