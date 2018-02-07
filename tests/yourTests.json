@@ -22,6 +22,6 @@
   {
     "name"   : "Bigboi",
     "code"   : "(4 * 4) - (3 * 3) + (3 * 3) * (3 + 4)",
-    "result" : { "value": "112" }
+    "result" : { "value": "70" }
   }
 ]
